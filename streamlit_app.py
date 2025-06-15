@@ -38,7 +38,7 @@ state_zoom_settings = {
     "FL": {"lat": 27.766279, "lon": -81.686783, "projection_scale": 3},
     "GA": {"lat": 33.040619, "lon": -83.643074, "projection_scale": 4},
     "HI": {"lat": 21.094318, "lon": -157.498337, "projection_scale": 4},
-    "ID": {"lat": 44.240459, "lon": -114.478828, "projection_scale": 5},
+    "ID": {"lat": 44.240459, "lon": -114.478828, "projection_scale": 3.5},
     "IL": {"lat": 40.349457, "lon": -88.986137, "projection_scale": 4},
     "IN": {"lat": 39.849426, "lon": -86.258278, "projection_scale": 4},
     "IA": {"lat": 42.011539, "lon": -93.210526, "projection_scale": 4},
