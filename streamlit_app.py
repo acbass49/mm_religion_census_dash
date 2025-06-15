@@ -184,7 +184,7 @@ st.markdown("<sub><i>Note: Some counties have only zeros, this is due to the rel
 # Layout the bottom charts in a 2x2 grid
 col1, col2 = st.columns(2)
 with col1:
-    top_growth = df_filtered.sort_values("membership_change", ascending=False).head(10)
+    top_growth = df_filtered.sort_values(y_choice, ascending=False).head(10)
     fig_top_bar = px.bar(
         top_growth,
         x="county_name",
@@ -196,7 +196,7 @@ with col1:
     st.plotly_chart(fig_top_bar, use_container_width=True)
 
 with col2:
-    bottom_growth = df_filtered.sort_values("membership_change", ascending=True).head(10)
+    bottom_growth = df_filtered.sort_values(y_choice, ascending=True).head(10)
     fig_bottom_bar = px.bar(
         bottom_growth,
         x="county_name",
