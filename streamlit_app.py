@@ -306,5 +306,5 @@ with col4:
         )
     st.plotly_chart(fig_urban_rural, use_container_width=True) 
 
-st.caption("Dashboard Created by [Alex](https://alexbass.me/) from [Mormon Metrics](https://mormonmetrics.substack.com/). View source code on [GitHub](https://github.com/acbass49/mormon_metrics_datasets).")
+st.caption("Dashboard Created by [Alex](https://alexbass.me/) from [Mormon Metrics](https://mormonmetrics.substack.com/). View source code on [GitHub](https://github.com/acbass49/mm_religion_census_dash).")
 st.caption("Data from the [2010 and 2020 U.S. Religion Census](https://www.usreligioncensus.org/) and the [National Center for Health Statistics](https://www.cdc.gov/nchs/data-analysis-tools/urban-rural.html).")
