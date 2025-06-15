@@ -26,7 +26,7 @@ data['number_of_members_2010'] = data['LDSADH'].fillna(0)
 data['number_of_members_2020'] = data['LDSADH_2020'].fillna(0)
 data['LDS_share_total_population_2010'] = data['LDSADH'] / data['POP2010']
 data['LDS_share_total_population_2020'] = data['LDSADH_2020'] / data['POP2020']
-data['change_in_LDS_population_share'] = data['LDS_share_total_population_2020'] - data['LDS_share_total_population_2010']
+data['change_in_LDS_population_share'] = (data['LDS_share_total_population_2020'] - data['LDS_share_total_population_2010']) * 100
 
 # Define state zoom settings
 state_zoom_settings = {
@@ -262,7 +262,7 @@ with col4:
     elif y_choice == 'change_in_LDS_population_share':
         cng_2010 = df_filtered.groupby("urban_rural_category")["LDSADH"].sum() / df_filtered.groupby("urban_rural_category")["POP2010"].sum()
         cng_2020 = df_filtered.groupby("urban_rural_category")["LDSADH_2020"].sum() / df_filtered.groupby("urban_rural_category")["POP2020"].sum()
-        summary_df = ((cng_2020 - cng_2010) / cng_2010 * 100).reset_index(name="pct_change")
+        summary_df = ((cng_2020 - cng_2010) * 100).reset_index(name="pct_change")
         y_display = "pct_change"
         
         fig_urban_rural = px.bar(
