@@ -92,7 +92,10 @@ state = st.sidebar.selectbox("Select a state to focus", ["US Overall"] + list(st
 color_range = st.sidebar.selectbox("Select color range (+/-)", [1, 5, 10, 100, 1000, 5000, 10000], index=4)
 
 # Top metrics
-col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+# Top metrics
+col1, col2, col3, col4 = st.columns(4)
+col5, col6, col7, col8 = st.columns(4)
+col9, col10, col11 = st.columns(3)
 
 if state == "US Overall":
     df_filtered = data
@@ -102,18 +105,26 @@ else:
 # Aggregate metrics
 col1.metric(f"{state} Membership 2010", value=f"{int(df_filtered['LDSADH'].sum()):,}")
 col2.metric(f"{state} Membership 2020", value=f"{int(df_filtered['LDSADH_2020'].sum()):,}")
-col3.metric(f"{state} Congregations 2010", value=f"{int(df_filtered['LDSCNG'].sum()):,}")
-col4.metric(f"{state} Congregations 2020", value=f"{int(df_filtered['LDSCNG_2020'].sum()):,}")
+col5.metric(f"{state} Congregations 2010", value=f"{int(df_filtered['LDSCNG'].sum()):,}")
+col6.metric(f"{state} Congregations 2020", value=f"{int(df_filtered['LDSCNG_2020'].sum()):,}")
 
 member_delta = df_filtered['LDSADH_2020'].sum() - df_filtered['LDSADH'].sum()
 cong_delta = df_filtered['LDSCNG_2020'].sum() - df_filtered['LDSCNG'].sum()
 member_pct = (member_delta / df_filtered['LDSADH'].sum()) * 100 if df_filtered['LDSADH'].sum() != 0 else 0
 cong_pct = (cong_delta / df_filtered['LDSCNG'].sum()) * 100 if df_filtered['LDSCNG'].sum() != 0 else 0
 
-col5.metric(f"{state} Membership Change", f"{int(member_delta):,}" if member_delta < 0 else f"+{int(member_delta):,}")
-col6.metric(f"{state} % Membership Change", f"{member_pct:.2f}%" if member_pct < 0 else f"+{member_pct:.2f}%")
+col3.metric(f"{state} Membership Change", f"{int(member_delta):,}" if member_delta < 0 else f"+{int(member_delta):,}")
+col4.metric(f"{state} % Membership Change", f"{member_pct:.2f}%" if member_pct < 0 else f"+{member_pct:.2f}%")
 col7.metric(f"{state} Congregation Change", f"{int(cong_delta):,}" if cong_delta < 0 else f"+{int(cong_delta):,}")
 col8.metric(f"{state} % Congregation Change", f"{cong_pct:.2f}%" if cong_pct < 0 else f"+{cong_pct:.2f}%")
+
+lds_share_2010 = df_filtered['LDSADH'].sum() / df_filtered['POP2010'].sum() * 100 if df_filtered['POP2010'].sum() else 0
+lds_share_2020 = df_filtered['LDSADH_2020'].sum() / df_filtered['POP2020'].sum() * 100 if df_filtered['POP2020'].sum() else 0
+lds_share_change = lds_share_2020 - lds_share_2010
+
+col9.metric(f"{state} LDS Share 2010", f"{lds_share_2010:.2f}%")
+col10.metric(f"{state} LDS Share 2020", f"{lds_share_2020:.2f}%")
+col11.metric(f"{state} LDS Share Change", f"{lds_share_change:.2f}%" if lds_share_change < 0 else f"+{lds_share_change:.2f}%")
 
 # Plot selection
 y_choice = st.sidebar.selectbox("Select value to plot", [
