@@ -70,7 +70,7 @@ state_zoom_settings = {
     "SD": {"lat": 44.299782, "lon": -99.438828, "projection_scale": 4},
     "TN": {"lat": 35.747845, "lon": -86.692345, "projection_scale": 4},
     "TX": {"lat": 31.054487, "lon": -97.563461, "projection_scale": 3},
-    "UT": {"lat": 39.321000, "lon": -111.093731, "projection_scale": 5},
+    "UT": {"lat": 39.321000, "lon": -111.093731, "projection_scale": 4},
     "VT": {"lat": 44.045876, "lon": -72.710686, "projection_scale": 6},
     "VA": {"lat": 37.769337, "lon": -78.169968, "projection_scale": 4},
     "WA": {"lat": 47.400902, "lon": -121.490494, "projection_scale": 4},
