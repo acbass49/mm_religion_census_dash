@@ -24,10 +24,10 @@ data['number_of_congregations_2010'] = data['LDSCNG'].fillna(0)
 data['number_of_congregations_2020'] = data['LDSCNG_2020'].fillna(0)
 data['number_of_members_2010'] = data['LDSADH'].fillna(0)
 data['number_of_members_2020'] = data['LDSADH_2020'].fillna(0)
-data['LDS_share_total_population_2010'] = (data['LDSADH'] / data['POP2010']) * 100
-data['LDS_share_total_population_2020'] = (data['LDSADH_2020'] / data['POP2020']) * 100
-data['change_in_LDS_population_share'] = data['LDS_share_total_population_2020'] - data['LDS_share_total_population_2010']
-data['population_percent_change'] = ((data['POP2020'] - data['POP2010']) / data['POP2010']) * 100
+data['LDS_share_total_population_2010'] = ((data['LDSADH'] / data['POP2010']) * 100).round(2)
+data['LDS_share_total_population_2020'] = ((data['LDSADH_2020'] / data['POP2020']) * 100).round(2)
+data['change_in_LDS_population_share'] = (data['LDS_share_total_population_2020'] - data['LDS_share_total_population_2010']).round(2)
+data['population_percent_change'] = (((data['POP2020'] - data['POP2010']) / data['POP2010']) * 100).round(2)
 
 # Define state zoom settings
 state_zoom_settings = {
