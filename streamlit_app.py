@@ -28,7 +28,7 @@ data['LDS_share_total_population_2010'] = ((data['LDSADH'] / data['POP2010']) * 
 data['LDS_share_total_population_2020'] = ((data['LDSADH_2020'] / data['POP2020']) * 100).round(2)
 data['change_in_LDS_population_share'] = (data['LDS_share_total_population_2020'] - data['LDS_share_total_population_2010']).round(2)
 data['population_percent_change'] = (((data['POP2020'] - data['POP2010']) / data['POP2010']) * 100).round(2)
-data['lds_membership_percent_change'] = ((data['LDSADH_2020'] - data['LDSADH']) / data['LDSADH']) * 100
+data['lds_membership_percent_change'] = (((data['LDSADH_2020'] - data['LDSADH']) / data['LDSADH']) * 100).round(2)
 
 # Define state zoom settings
 state_zoom_settings = {
