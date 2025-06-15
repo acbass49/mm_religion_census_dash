@@ -26,7 +26,7 @@ data['number_of_members_2010'] = data['LDSADH'].fillna(0)
 data['number_of_members_2020'] = data['LDSADH_2020'].fillna(0)
 data['LDS_share_total_population_2010'] = data['LDSADH'] / data['POP2010']
 data['LDS_share_total_population_2020'] = data['LDSADH_2020'] / data['POP2020']
-data['change_in_LDS_population_share'] = data['share_total_population_2020'] - data['share_total_population_2010']
+data['change_in_LDS_population_share'] = data['LDS_share_total_population_2020'] - data['LDS_share_total_population_2010']
 
 # Define state zoom settings
 state_zoom_settings = {
@@ -167,6 +167,9 @@ fig = px.choropleth(
         'number_of_congregations_2010': True,
         'number_of_congregations_2020': True,
         'congregation_change': True,
+        'LDS_share_total_population_2010': True,
+        'LDS_share_total_population_2020': True,
+        'change_in_LDS_population_share': True
     },
 )
 
