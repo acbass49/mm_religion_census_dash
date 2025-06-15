@@ -213,7 +213,7 @@ with col3:
         df_filtered,
         x=y_choice,
         nbins=50,
-        title=f"{state}: Histogram of {text_format_dict[y_choice]}",
+        title=f"{state}: Distribution of counties' {text_format_dict[y_choice]}",
         labels={y_choice: text_format_dict[y_choice]},
         color_discrete_sequence=["#888"]
     )
