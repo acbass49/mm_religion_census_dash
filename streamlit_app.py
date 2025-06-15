@@ -24,6 +24,9 @@ data['number_of_congregations_2010'] = data['LDSCNG'].fillna(0)
 data['number_of_congregations_2020'] = data['LDSCNG_2020'].fillna(0)
 data['number_of_members_2010'] = data['LDSADH'].fillna(0)
 data['number_of_members_2020'] = data['LDSADH_2020'].fillna(0)
+data['LDS_share_total_population_2010'] = data['LDSADH'] / data['total_population_2010']
+data['LDS_share_total_population_2020'] = data['LDSADH_2020'] / data['total_population_2020']
+data['change_in_LDS_population_share'] = data['share_total_population_2020'] - data['share_total_population_2010']
 
 # Define state zoom settings
 state_zoom_settings = {
@@ -117,7 +120,7 @@ y_choice = st.sidebar.selectbox("Select value to plot", [
     "membership_change", "pct_change_lds_filled",
     "LDSADH", "LDSADH_2020",
     "congregation_change", "pct_change_cong_filled",
-    "LDSCNG", "LDSCNG_2020"
+    "LDSCNG", "LDSCNG_2020", "change_in_LDS_population_share"
 ], format_func=lambda x: {
     "membership_change": "Change in Membership",
     "pct_change_lds_filled": "% Change in Membership",
@@ -126,7 +129,8 @@ y_choice = st.sidebar.selectbox("Select value to plot", [
     "congregation_change": "Change in Congregations",
     "pct_change_cong_filled": "% Change in Congregations",
     "LDSCNG": "Congregations in 2010",
-    "LDSCNG_2020": "Congregations in 2020"
+    "LDSCNG_2020": "Congregations in 2020",
+    "change_in_LDS_population_share": "Change in LDS Population Share"
 }[x])
 
 text_format_dict = {
@@ -137,7 +141,8 @@ text_format_dict = {
     "congregation_change": "Change in Congregations",
     "pct_change_cong_filled": "% Change in Congregations",
     "LDSCNG": "Congregations in 2010",
-    "LDSCNG_2020": "Congregations in 2020"
+    "LDSCNG_2020": "Congregations in 2020",
+    "change_in_LDS_population_share": "Change in LDS Population Share"
 }
 
 # Plot map
@@ -239,6 +244,21 @@ with col4:
     elif y_choice == 'pct_change_cong_filled':
         cng_2010 = df_filtered.groupby("urban_rural_category")["LDSCNG"].sum()
         cng_2020 = df_filtered.groupby("urban_rural_category")["LDSCNG_2020"].sum()
+        summary_df = ((cng_2020 - cng_2010) / cng_2010 * 100).reset_index(name="pct_change")
+        y_display = "pct_change"
+        
+        fig_urban_rural = px.bar(
+            summary_df,
+            x="urban_rural_category",
+            y=y_display,
+            title=f"{state}: {text_format_dict[y_choice]} by Urban/Rural Category",
+            labels={"urban_rural_category": "Urban-Rural Category", y_choice: text_format_dict[y_choice]},
+            color_discrete_sequence=["#1f77b4"]
+        )
+    
+    elif y_choice == 'change_in_LDS_population_share':
+        cng_2010 = df_filtered.groupby("urban_rural_category")["LDSADH"].sum() / df_filtered.groupby("urban_rural_category")["POP2010"].sum()
+        cng_2020 = df_filtered.groupby("urban_rural_category")["LDSADH_2020"].sum() / df_filtered.groupby("urban_rural_category")["POP2020"].sum()
         summary_df = ((cng_2020 - cng_2010) / cng_2010 * 100).reset_index(name="pct_change")
         y_display = "pct_change"
         
