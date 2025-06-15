@@ -10,7 +10,7 @@ with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-c
     counties = json.load(response)
 
 # Load data
-data = pd.read_csv('https://raw.githubusercontent.com/acbass49/mormon_metrics_datasets/refs/heads/main/lds_urban_rural_merged.csv')
+data = pd.read_csv('https://raw.githubusercontent.com/acbass49/mm_religion_census_dash/refs/heads/main/lds_urban_rural_merged.csv')
 data['fips_str'] = data['fips'].astype(str).str.zfill(5)
 data['pct_change_lds_filled'] = data['pct_change_lds'].fillna(0)
 data['membership_change'] = data['LDSADH_2020'].fillna(0) - data['LDSADH'].fillna(0)
