@@ -172,7 +172,7 @@ fig = px.choropleth(
         'LDS_share_total_population_2010': True,
         'LDS_share_total_population_2020': True,
         'change_in_LDS_population_share': True,
-        'LDS_membership_percent_change': True,
+        'lds_membership_percent_change': True,
         'population_percent_change': True
     },
 )
