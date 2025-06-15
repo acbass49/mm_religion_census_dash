@@ -27,6 +27,7 @@ data['number_of_members_2020'] = data['LDSADH_2020'].fillna(0)
 data['LDS_share_total_population_2010'] = (data['LDSADH'] / data['POP2010']) * 100
 data['LDS_share_total_population_2020'] = (data['LDSADH_2020'] / data['POP2020']) * 100
 data['change_in_LDS_population_share'] = data['LDS_share_total_population_2020'] - data['LDS_share_total_population_2010']
+data['population_percent_change'] = ((data['POP2020'] - data['POP2010']) / data['POP2010']) * 100
 
 # Define state zoom settings
 state_zoom_settings = {
@@ -169,7 +170,8 @@ fig = px.choropleth(
         'congregation_change': True,
         'LDS_share_total_population_2010': True,
         'LDS_share_total_population_2020': True,
-        'change_in_LDS_population_share': True
+        'change_in_LDS_population_share': True,
+        'population_percent_change': True
     },
 )
 
@@ -190,11 +192,13 @@ st.plotly_chart(fig, use_container_width=True)
 lds_share_2010 = df_filtered['LDSADH'].sum() / df_filtered['POP2010'].sum() * 100 if df_filtered['POP2010'].sum() else 0
 lds_share_2020 = df_filtered['LDSADH_2020'].sum() / df_filtered['POP2020'].sum() * 100 if df_filtered['POP2020'].sum() else 0
 lds_share_change = lds_share_2020 - lds_share_2010
+population_percent_change = ((df_filtered['POP2020'].sum() - df_filtered['POP2010'].sum()) / df_filtered['POP2010'].sum()) * 100 if df_filtered['POP2010'].sum() else 0
 
-col9, col10, col11 = st.columns(3)
+col9, col10, col11, col12 = st.columns(4)
 col9.metric(f"{state} LDS Share 2010", f"{lds_share_2010:.2f}%")
 col10.metric(f"{state} LDS Share 2020", f"{lds_share_2020:.2f}%")
 col11.metric(f"{state} LDS Share Change", f"{lds_share_change:.2f}%" if lds_share_change < 0 else f"+{lds_share_change:.2f}%")
+col12.metric(f"{state} Popululation Percent Change", f"{population_percent_change:.2f}%" if population_percent_change < 0 else f"+{population_percent_change:.2f}%")
 
 st.markdown("<sub><i>Note: Some counties have only zeros, this is due to the religion census not reporting LDS data for those counties likely because of a very small number of people.</i></sub>", unsafe_allow_html=True)
 
