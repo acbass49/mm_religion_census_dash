@@ -97,7 +97,8 @@ state = st.sidebar.selectbox("Select a state to focus", ["US Overall"] + list(st
 color_range = st.sidebar.selectbox("Select color range (+/-)", [1, 5, 10, 100, 1000, 5000, 10000], index=4)
 
 # Top metrics
-col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
+col1, col2, col3, col4 = st.columns(4)
+col5, col6, col7, col8 = st.columns(4)
 
 if state == "US Overall":
     df_filtered = data
