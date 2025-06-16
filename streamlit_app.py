@@ -32,6 +32,8 @@ data['change_in_LDS_population_share'] = (data['LDS_share_total_population_2020'
 data['population_percent_change'] = (((data['POP2020'] - data['POP2010']) / data['POP2010']) * 100).round(2)
 data['LDS_membership_percent_change'] = (((data['LDSADH_2020'] - data['LDSADH']) / data['LDSADH']) * 100).round(2)
 data['LDS_membership_percent_change'] = data['LDS_membership_percent_change'].fillna(0)
+data['total_population_in_area_2010'] = data['POP2010'].fillna(0)
+data['total_population_in_area_2020'] = data['POP2020'].fillna(0)
 
 # Define state zoom settings
 state_zoom_settings = {
@@ -177,6 +179,8 @@ fig = px.choropleth(
         'LDS_share_total_population_2020': True,
         'change_in_LDS_population_share': True,
         'LDS_membership_percent_change': True,
+        'total_population_in_area_2010': True,
+        'total_population_in_area_2020': True,
         'population_percent_change': True
     },
 )
