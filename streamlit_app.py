@@ -93,6 +93,7 @@ state_zoom_settings = {
 # Streamlit UI
 st.set_page_config(layout="wide")
 st.title("LDS Membership and Congregation Change by County (2010–2020)")
+st.markdown("If you want some tips and tricks on how to use this dashboard, check out my video walkthrough [here](https://youtu.be/vg9JL4lrr7M).")
 
 # Sidebar
 state = st.sidebar.selectbox("Select a state to focus", ["US Overall"] + list(state_zoom_settings.keys()))
