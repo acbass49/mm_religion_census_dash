@@ -34,6 +34,7 @@ data['LDS_membership_percent_change'] = (((data['LDSADH_2020'] - data['LDSADH'])
 data['LDS_membership_percent_change'] = data['LDS_membership_percent_change'].fillna(0)
 data['total_population_in_area_2010'] = data['POP2010'].fillna(0)
 data['total_population_in_area_2020'] = data['POP2020'].fillna(0)
+data['county_and_state'] = data['county_name'] + ', ' + data['STABBR']
 
 # Define state zoom settings
 state_zoom_settings = {
@@ -129,7 +130,9 @@ y_choice = st.sidebar.selectbox("Select value to plot", [
     "membership_change", "pct_change_lds_filled",
     "LDSADH", "LDSADH_2020",
     "congregation_change", "pct_change_cong_filled",
-    "LDSCNG", "LDSCNG_2020", "change_in_LDS_population_share"
+    "LDSCNG", "LDSCNG_2020", "LDS_share_total_population_2010", 
+    "LDS_share_total_population_2020",
+    "change_in_LDS_population_share"
 ], format_func=lambda x: {
     "membership_change": "Change in Membership",
     "pct_change_lds_filled": "% Change in Membership",
@@ -139,6 +142,8 @@ y_choice = st.sidebar.selectbox("Select value to plot", [
     "pct_change_cong_filled": "% Change in Congregations",
     "LDSCNG": "Congregations in 2010",
     "LDSCNG_2020": "Congregations in 2020",
+    "LDS_share_total_population_2010": "LDS Share of Total Population in 2010",
+    "LDS_share_total_population_2020": "LDS Share of Total Population in 2020",
     "change_in_LDS_population_share": "Change in LDS Population Share"
 }[x])
 
@@ -151,7 +156,9 @@ text_format_dict = {
     "pct_change_cong_filled": "% Change in Congregations",
     "LDSCNG": "Congregations in 2010",
     "LDSCNG_2020": "Congregations in 2020",
-    "change_in_LDS_population_share": "Change in LDS Population Share"
+    "change_in_LDS_population_share": "Change in LDS Population Share",
+    "LDS_share_total_population_2010": "LDS Share of Total Population in 2010 (%)",
+    "LDS_share_total_population_2020": "LDS Share of Total Population in 2020 (%)"
 }
 
 # Plot map
@@ -173,13 +180,13 @@ fig = px.choropleth(
         'number_of_members_2010': True,
         'number_of_members_2020': True,
         'membership_change': True,
+        'LDS_membership_percent_change': True,
         'number_of_congregations_2010': True,
         'number_of_congregations_2020': True,
         'congregation_change': True,
         'LDS_share_total_population_2010': True,
         'LDS_share_total_population_2020': True,
         'change_in_LDS_population_share': True,
-        'LDS_membership_percent_change': True,
         'total_population_in_area_2010': True,
         'total_population_in_area_2020': True,
         'population_percent_change': True
@@ -219,10 +226,10 @@ with col1:
     top_growth = df_filtered.sort_values(y_choice, ascending=False).head(10)
     fig_top_bar = px.bar(
         top_growth,
-        x="county_name",
+        x="county_and_state",
         y=y_choice,
         title=f"{state}: Top 10 Counties By {text_format_dict[y_choice]}",
-        labels={"county_name": "County", y_choice: text_format_dict[y_choice]},
+        labels={"county_and_state": "County", 'STABBR': 'State', y_choice: text_format_dict[y_choice]},
         color_discrete_sequence=["green"]
     )
     st.plotly_chart(fig_top_bar, use_container_width=True)
@@ -231,10 +238,10 @@ with col2:
     bottom_growth = df_filtered.sort_values(y_choice, ascending=True).head(10)
     fig_bottom_bar = px.bar(
         bottom_growth,
-        x="county_name",
+        x="county_and_state",
         y=y_choice,
         title=f"{state}: Bottom 10 Counties By {text_format_dict[y_choice]}",
-        labels={"county_name": "County", y_choice: text_format_dict[y_choice]},
+        labels={"county_and_state": "County", y_choice: text_format_dict[y_choice]},
         color_discrete_sequence=["red"]
     )
     st.plotly_chart(fig_bottom_bar, use_container_width=True)
@@ -280,6 +287,32 @@ with col4:
             y=y_display,
             title=f"{state}: {text_format_dict[y_choice]} by Urban/Rural Category",
             labels={"urban_rural_category": "Urban-Rural Category", y_choice: text_format_dict[y_choice]},
+            color_discrete_sequence=["#1f77b4"]
+        )
+    
+    elif y_choice == 'LDS_share_total_population_2010':
+        summary_df = ((df_filtered.groupby("urban_rural_category")["LDSADH"].sum() / df_filtered.groupby("urban_rural_category")["POP2010"].sum())*100).reset_index(name="% LDS of Total Population in 2010")
+        y_display = "% LDS of Total Population in 2010"
+        
+        fig_urban_rural = px.bar(
+            summary_df,
+            x="urban_rural_category",
+            y=y_display,
+            title=f"{state}: LDS Share of Total Population in 2010 by Urban/Rural Category",
+            labels={"urban_rural_category": "Urban-Rural Category", y_display: text_format_dict[y_choice]},
+            color_discrete_sequence=["#1f77b4"]
+        )
+    
+    elif y_choice == 'LDS_share_total_population_2020':
+        summary_df = ((df_filtered.groupby("urban_rural_category")["LDSADH_2020"].sum() / df_filtered.groupby("urban_rural_category")["POP2020"].sum())*100).reset_index(name="% LDS of Total Population in 2020")
+        y_display = "% LDS of Total Population in 2020"
+        
+        fig_urban_rural = px.bar(
+            summary_df,
+            x="urban_rural_category",
+            y=y_display,
+            title=f"{state}: LDS Share of Total Population in 2020 by Urban/Rural Category",
+            labels={"urban_rural_category": "Urban-Rural Category",  y_display: text_format_dict[y_choice]},
             color_discrete_sequence=["#1f77b4"]
         )
     
